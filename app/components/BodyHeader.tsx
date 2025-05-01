@@ -4,7 +4,7 @@ import Paginator from "./Paginator";
 export default function BodyHeader({
   title,
   paginator,
-  paginatorInfo
+  paginatorInfo,
 }: {
   title: string;
   paginator?: boolean;
@@ -13,7 +13,7 @@ export default function BodyHeader({
   return (
     <div className="flex container mx-auto items-center ">
       <h2 className="text-xl font-bold">{title}</h2>
-      {paginator && <Paginator  {...paginatorInfo} />}
+      {paginator && <Paginator {...paginatorInfo} />}
     </div>
   );
 }

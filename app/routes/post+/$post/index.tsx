@@ -30,7 +30,7 @@ export default function index() {
   };
   return (
     <div className=" container mx-auto flex flex-col">
-      <div className=" py-4  mx-auto w-full max-w-[752px] text-center">
+      <div className=" py-4  mx-auto w-full max-w-[852px] text-center text-balance">
         <div className=" font-bold flex flex-col text-center justify-center">
           <span className="text-5xl font-bold capitalize">{resp.title}</span>
           <div className=" italic font-normal label mx-auto text-center mt-8">
@@ -39,7 +39,7 @@ export default function index() {
         </div>
       </div>
       <div className="divider "></div>
-      <main className="mx-auto  max-w-[752px]">
+      <main className="mx-auto  max-w-[852px] ">
         <Suspense fallback={<>loading</>}>
           <div className="prose max-w-none">
             <Markdown
