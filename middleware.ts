@@ -1,4 +1,6 @@
+import { authMiddleware } from "~/middlewares/auth";
 import type { Route } from "./app/+types/root";
+import cookie from "cookie";
 export let MiddleWare: Route.unstable_MiddlewareFunction = async (
   ctx,
   next
@@ -6,6 +8,11 @@ export let MiddleWare: Route.unstable_MiddlewareFunction = async (
   let start = performance.now();
   let res = await next();
   let duration = performance.now() - start;
-  console.log(duration)
+
+  let resp = await authMiddleware({ ...ctx, response: res });
+  let mic_cookie = cookie.serialize("mic", "sss", {
+    path: "/",
+  });
+  res.headers.append("set-cookie", mic_cookie);
   return res;
 };
