@@ -27,7 +27,7 @@ export default function Card(item: Post) {
         alt=""
         className="max-h-[200px] h-full rounded-xl object-cover"
       />
-      <div className="px-2 mt-2">
+      <div className="px-2 mt-2 flex flex-col gap-2">
         <h2 className="font-bold truncate">{item.title}</h2>
         <h2 className="text-xs">{created}</h2>
       </div>

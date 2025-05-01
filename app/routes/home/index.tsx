@@ -41,7 +41,7 @@ export default function index() {
         <main className=" mt-4 container mx-auto">
           <FillBody>
             <div className="flex-1">
-              <div className="grid grid-cols-4  w-full divide divide-y  divide-primary/50 gap-4">
+              <div className="grid grid-cols-4  w-full gap-3">
                 <Suspense fallback={<>loading</>}>
                   {resp.items.map((item) => (
                     <Card key={item.id} {...item} />

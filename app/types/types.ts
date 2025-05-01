@@ -8,12 +8,10 @@ export interface Post {
   thumb: string;
   collenctionName: string;
   id: string;
-
-
 }
 export interface PostResult extends ListResult<Post> {}
 
-export interface PAGINATOR{
-  totalPages:number,
-  currentPage:number
+export interface PAGINATOR {
+  totalPages: number;
+  currentPage: number;
 }
