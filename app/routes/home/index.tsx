@@ -18,7 +18,9 @@ import type { PostResult } from "~/types/types";
 import Card from "~/components/Card";
 export let loader = async () => {
   let db = createClient();
-  let resp = await db.collection("posts").getList(1, 5);
+  let resp = await db.collection("posts").getList(1, 5, {
+    sort: "-created",
+  });
   return resp;
 };
 

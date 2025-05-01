@@ -24,7 +24,6 @@ export default function Editor() {
       buttonRef.current.disabled = false;
       return toast.error("title is empty");
     }
-
     let post_data = {
       title: titleRef.current?.value as string,
       body: editor.current?.getContents(false) as string,
