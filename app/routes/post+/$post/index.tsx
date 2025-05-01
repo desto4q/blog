@@ -30,26 +30,30 @@ export default function index() {
   };
   return (
     <div className=" container mx-auto flex flex-col">
-      <div className=" py-4 flex items-center ">
-        <div className=" font-bold flex flex-col">
-          <span className="text-4xl font-bold capitalize">{resp.title}</span>
-          <div className="mt-2 italic font-normal label">{formatter(resp.created!)}</div>
+      <div className=" py-4  mx-auto w-full max-w-[752px] text-center">
+        <div className=" font-bold flex flex-col text-center justify-center">
+          <span className="text-5xl font-bold capitalize">{resp.title}</span>
+          <div className=" italic font-normal label mx-auto text-center mt-8">
+            {formatter(resp.created!)}
+          </div>
         </div>
       </div>
       <div className="divider "></div>
-      <Suspense fallback={<>loading</>}>
-        <div className="prose max-w-none">
-          <Markdown
-            rehypePlugins={[rehypeRaw]}
-            remarkPlugins={[remarkGfm, remarkBreaks]}
-            components={{
-              hr: () => <hr className="my-8 border-t border-gray-300" />,
-            }}
-          >
-            {content_md}
-          </Markdown>
-        </div>
-      </Suspense>
+      <main className="mx-auto  max-w-[752px]">
+        <Suspense fallback={<>loading</>}>
+          <div className="prose max-w-none">
+            <Markdown
+              rehypePlugins={[rehypeRaw]}
+              remarkPlugins={[remarkGfm, remarkBreaks]}
+              components={{
+                hr: () => <hr className="my-8 border-t border-gray-300" />,
+              }}
+            >
+              {content_md}
+            </Markdown>
+          </div>
+        </Suspense>
+      </main>
     </div>
   );
 }

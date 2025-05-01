@@ -12,7 +12,6 @@ export default function Paginator(props: PAGINATOR) {
       setSearchParams(searchParams);
     }
   };
-
   const handleNextPage = () => {
     if (currentPage < props.totalPages) {
       searchParams.set("page", String(currentPage + 1));
