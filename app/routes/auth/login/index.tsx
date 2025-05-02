@@ -9,7 +9,6 @@ export let loader = async ({ request }: Route.LoaderArgs) => {
   await verifyCookie(cookies as string);
   return "sage";
 };
-
 export let action = async ({ request, params, context }: Route.ActionArgs) => {
   let form = await request.formData();
   let email = form.get("email") as string;
@@ -18,7 +17,6 @@ export let action = async ({ request, params, context }: Route.ActionArgs) => {
   let auth_response = await db
     .collection("users")
     .authWithPassword(email, password);
-
   let auth_cookie = db.authStore.exportToCookie();
   let header = new Headers();
   header.append("set-cookie", auth_cookie);

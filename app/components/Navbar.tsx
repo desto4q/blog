@@ -2,6 +2,7 @@ import { SearchIcon } from "lucide-react";
 import React, { useEffect } from "react";
 import { Link, useLoaderData, useRouteLoaderData } from "react-router";
 import type { USERINFO } from "~/types/types";
+import SearchBar from "./SearchBar";
 export default function NavBar() {
   const data: USERINFO | undefined = useRouteLoaderData("root");
 
@@ -11,17 +12,9 @@ export default function NavBar() {
         <Link viewTransition to={"/home"} className="text-2xl font-bold">
           Blog
         </Link>
-        <form
-          className="join mx-auto w-full max-w-md"
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-        >
-          <input type="text" className="join-item input w-full " />
-          <button className="btn join-item btn-primary btn-soft">
-            <SearchIcon />
-          </button>
-        </form>
+        <div className="mx-auto w-full max-w-md">
+          <SearchBar />
+        </div>
         <div className="flex items-center gap-2">
           <Link viewTransition to={"/home"} className="btn btn-link btn-ghost ">
             Latest{" "}
@@ -51,8 +44,11 @@ export default function NavBar() {
           ) : (
             <>
               <div className="dropdown dropdown-end">
-                <div tabIndex={0} role="button" className="btn m-1">
-                  Click ⬇️
+                <div tabIndex={0} role="button" className="btn m-1 btn-soft ">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-accent/50 size-5 rounded-sm"></div>
+                    <h2>{data.name}</h2>
+                  </div>
                 </div>
                 <ul
                   tabIndex={0}
