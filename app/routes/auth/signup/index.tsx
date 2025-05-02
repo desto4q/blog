@@ -62,10 +62,11 @@ export default function index() {
   let action_data = useActionData<typeof action>();
   let nav = useNavigate();
   let log_state = () => {
-    if (action_data?.error) {
-      return toast.error(action_data.error?.message ?? "failed to create user");
+    if (action_data && "error" in action_data) {
+      //@ts-ignore
+      return toast.error(action_data.error!.message ?? "failed to create user");
     }
-    if (action_data?.message) {
+    if (action_data && "message" in action_data) {
       toast.success("user created, redirecting");
       return setTimeout(() => {
         return nav("/auth/login");

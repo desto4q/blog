@@ -1,5 +1,7 @@
 import { staticDb } from "~/client/pocketbase";
-
+import cookie from "cookie";
+import { isTokenExpired } from "pocketbase";
+import { redirect } from "react-router";
 let post = () => {};
 
 interface UPLOADPOST {
@@ -19,4 +21,13 @@ export let UploadPost = async (props: UPLOADPOST) => {
   });
 
   return { post_resp, body_response };
+};
+
+export let verifyCookie = async (cookie_string: string) => {
+  let cookies = cookie.parse(cookie_string);
+  if (!cookies) return;
+  let pb_auth = cookies.pb_auth;
+  if (!pb_auth) return;
+  if (isTokenExpired(pb_auth)) return;
+  throw redirect("/home")
 };
