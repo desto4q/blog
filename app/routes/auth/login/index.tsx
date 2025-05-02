@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import { Link } from "react-router";
 import FillBody from "~/components/FillBody";
 
+
+export let action  = async()=>{
+
+}
 export default function index() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle login logic here
     console.log({ email, password });
   };
-
   return (
     <FillBody>
       <div className="flex-1 flex items-center justify-center">
@@ -41,7 +43,7 @@ export default function index() {
             <p>Or</p>
             <div className="divider w-full"></div>
           </div>
-          <Link to={"#"} className="btn btn-accent btn-soft">
+          <Link to={"/auth/signup"} className="btn btn-accent btn-soft">
             Sign Up
           </Link>
         </form>
