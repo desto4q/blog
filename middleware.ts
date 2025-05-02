@@ -13,6 +13,7 @@ export let MiddleWare: Route.unstable_MiddlewareFunction = async (
   let mic_cookie = cookie.serialize("mic", "sss", {
     path: "/",
   });
+  ctx.context["user"] = "dezz";
   res.headers.append("set-cookie", mic_cookie);
   return res;
 };

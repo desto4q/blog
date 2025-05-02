@@ -1,7 +1,10 @@
 import { SearchIcon } from "lucide-react";
-import React from "react";
-import { Link } from "react-router";
+import React, { useEffect } from "react";
+import { Link, useLoaderData, useRouteLoaderData } from "react-router";
+import type { USERINFO } from "~/types/types";
 export default function NavBar() {
+  const data: USERINFO | undefined = useRouteLoaderData("root");
+
   return (
     <div className="h-20  bg-base-100 sticky top-0 z-20">
       <nav className="container mx-auto flex items-center h-full border-b border-primary/25">
@@ -23,13 +26,50 @@ export default function NavBar() {
           <Link viewTransition to={"/home"} className="btn btn-link btn-ghost ">
             Latest{" "}
           </Link>
-          <Link viewTransition to={"/popular"} className="btn btn-link btn-ghost ">
+          <Link
+            viewTransition
+            to={"/popular"}
+            className="btn btn-link btn-ghost "
+          >
             Popular{" "}
           </Link>
-          <div className="join ml-2">
-            <button className="join-item btn btn-primary btn-sm">Login</button>
-            <button className="join-item btn btn-accent btn-sm">Sign Up</button>
-          </div>
+          {!data ? (
+            <div className="join ml-2">
+              <Link
+                to="/auth/login"
+                className="join-item btn btn-primary btn-sm"
+              >
+                Login
+              </Link>
+              <Link
+                to={"/auth/signup"}
+                className="join-item btn btn-accent btn-sm"
+              >
+                Sign Up
+              </Link>
+            </div>
+          ) : (
+            <>
+              <div className="dropdown dropdown-end">
+                <div tabIndex={0} role="button" className="btn m-1">
+                  Click ⬇️
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+                >
+                  <li>
+                    <a>Item 1</a>
+                  </li>
+                  <li>
+                    <Link to={"/api/logout"} className="btn btn-error">
+                      Logout
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </>
+          )}
         </div>
       </nav>
     </div>

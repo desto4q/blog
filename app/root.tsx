@@ -25,6 +25,7 @@ export const links: Route.LinksFunction = () => [
 ];
 import { Toaster } from "sonner";
 import { MiddleWare } from "middleware";
+import { createClient } from "./client/pocketbase";
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-theme="dark">
@@ -44,6 +45,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
     </html>
   );
 }
+
+export let loader = ({ context, request }: Route.LoaderArgs) => {
+  let cookies = request.headers.get("cookie") ?? null;
+  if (!cookies) return null;
+
+  let db = createClient();
+  db.authStore.loadFromCookie(cookies!);
+  return db.authStore.record;
+};
 
 export default function App() {
   return <Outlet />;

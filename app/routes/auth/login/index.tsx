@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useActionData, useLoaderData } from "react-router";
+import { Link, redirect, useActionData, useLoaderData } from "react-router";
 import FillBody from "~/components/FillBody";
 import type { Route } from "../../api/images/$image/+types";
 import { createClient } from "~/client/pocketbase";
@@ -22,12 +22,7 @@ export let action = async ({ request, params, context }: Route.ActionArgs) => {
   let auth_cookie = db.authStore.exportToCookie();
   let header = new Headers();
   header.append("set-cookie", auth_cookie);
-  return Response.json(
-    { auth_response, auth_cookie },
-    {
-      headers: header,
-    }
-  );
+  return redirect("/home", { headers: header });
 };
 export default function index() {
   let action_data = useActionData<typeof action>();
@@ -52,6 +47,7 @@ export default function index() {
               className="input w-full"
               placeholder="email"
               name="email"
+              required
             />
           </div>
           <div className="flex flex-col">
@@ -60,6 +56,7 @@ export default function index() {
               type="text"
               className="input w-full"
               placeholder="password"
+              required
               name="password"
             />
           </div>

@@ -15,3 +15,16 @@ export interface PAGINATOR {
   totalPages: number;
   currentPage: number;
 }
+
+export interface USERINFO {
+  avatar: string;
+  collectionId: string;
+  collectionName: string;
+  created: string;
+  email: string;
+  emailVisibility: boolean;
+  id: string;
+  name: string;
+  updated: string;
+  verified: boolean;
+}

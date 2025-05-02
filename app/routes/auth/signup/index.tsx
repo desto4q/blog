@@ -8,7 +8,6 @@ import { toast } from "sonner";
 
 export let action = async ({ request }: Route.ActionArgs) => {
   let form = await request.formData();
-
   let email = form.get("email");
   let name = form.get("name");
   let password = form.get("password");
@@ -16,18 +15,15 @@ export let action = async ({ request }: Route.ActionArgs) => {
     email,
     password,
     passwordConfirm: password,
+    name: name,
   };
   let db = createClient();
   try {
     let auth_response = await db.collection("users").create(auth_data);
-    let author_response = await db.collection("authors").create({
-      author: name,
-      user_id: auth_response.id,
-    });
 
     return Response.json(
       {
-        message: author_response,
+        message: "logged in",
       },
       {
         status: 201,

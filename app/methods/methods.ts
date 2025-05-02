@@ -1,6 +1,6 @@
-import { staticDb } from "~/client/pocketbase";
+import { createClient, staticDb } from "~/client/pocketbase";
 import cookie from "cookie";
-import { isTokenExpired } from "pocketbase";
+import { getTokenPayload, isTokenExpired } from "pocketbase";
 import { redirect } from "react-router";
 let post = () => {};
 
@@ -29,5 +29,11 @@ export let verifyCookie = async (cookie_string: string) => {
   let pb_auth = cookies.pb_auth;
   if (!pb_auth) return;
   if (isTokenExpired(pb_auth)) return;
-  throw redirect("/home")
+  throw redirect("/home");
+};
+
+export let get_user = async (cookie_string: string) => {
+  let db = createClient();
+  db.authStore.loadFromCookie(cookie_string);
+  let model = db.authStore.record;  return model;
 };
