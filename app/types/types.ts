@@ -28,3 +28,14 @@ export interface USERINFO {
   updated: string;
   verified: boolean;
 }
+
+export interface POSTRESPONSE extends Post {
+  views: {
+    id: string;
+    collectionId: string;
+    reads: number;
+    views: number;
+    post_id: string;
+  };
+  expand: any;
+}

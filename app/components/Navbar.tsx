@@ -5,8 +5,8 @@ export default function NavBar() {
   const data: USERINFO | undefined = useRouteLoaderData("root");
 
   return (
-    <div className="h-20  sticky top-0 z-20 bg-base-100">
-      <nav className="container mx-auto  flex items-center h-full border-b border-primary/25">
+    <div className="h-20  sticky top-0 z-20 bg-base-100  border-b border-primary/25">
+      <nav className="container mx-auto  flex items-center h-full">
         <Link viewTransition to={"/home"} className="text-2xl font-bold">
           Blog
         </Link>

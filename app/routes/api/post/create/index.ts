@@ -33,14 +33,17 @@ export let action = async ({ request }: Route.LoaderArgs) => {
   let body_response = await db.collection("post_body").create({
     body: body,
   });
-  console.log("done");
   let post_resp = await db.collection("posts").create({
     title: title,
     thumb: thumb,
     body: body_response.id,
     user_id: db.authStore.record?.id,
   });
-
+  await db.collection("views").create({
+    views: 0,
+    reads: 0,
+    post_id: post_resp.id,
+  });
   return Response.json(
     {
       message: "post created",

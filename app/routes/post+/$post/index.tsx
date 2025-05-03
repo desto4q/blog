@@ -1,22 +1,28 @@
 import type { Route } from ".react-router/types/app/+types/root";
 import React, { Suspense, useEffect } from "react";
 import { useLoaderData } from "react-router";
-import { createClient } from "~/client/pocketbase";
+import { createClient, staticDb } from "~/client/pocketbase";
 import { marked } from "marked";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";
+import type { POSTRESPONSE } from "~/types/types";
 export let loader = async ({ params }: Route.LoaderArgs) => {
   let { post } = params;
   let db = createClient();
   let resp = await db.collection("posts").getOne(post as string, {
     expand: "body,user_id",
   });
-  return resp;
+  let views_resp = await db
+    .collection("views")
+    .getFirstListItem(`post_id="${resp.id}"`);
+
+  let new_resp = { ...resp, views: views_resp };
+  return new_resp;
 };
 export default function index() {
-  let resp = useLoaderData<typeof loader>();
+  let resp = useLoaderData<POSTRESPONSE>();
   let content_md = resp.expand!.body.body;
   let parsed = marked.parse(content_md);
   let formatter = (date_string: string) => {
@@ -28,18 +34,43 @@ export default function index() {
       minute: "2-digit",
     });
   };
+  let read_and_view = async () => {
+    let db = staticDb;
+
+    await db.collection("views").update(resp.views.id, {
+      views: resp.views.views + 1,
+      post_id: resp.id,
+    });
+    setTimeout(async () => {
+      await db.collection("views").update(resp.views.id, {
+        reads: resp.views.reads + 1,
+        post_id: resp.id,
+      });
+    }, 2000);
+  };
+  useEffect(() => {
+    read_and_view();
+  }, []);
   return (
     <div className=" container mx-auto flex flex-col">
       <div className=" py-4  mx-auto w-full max-w-[852px] text-center text-balance">
         <div className=" font-bold flex flex-col text-center justify-center">
+          <div className="">
+            <img
+              className="h-[252px] my-2 mx-auto"
+              src={staticDb.files.getURL(resp, resp.thumb) ?? undefined}
+              alt=""
+            />
+          </div>
           <span className="text-5xl font-bold capitalize leading-normal">
             {resp.title}
           </span>
-          <div className=" italic font-normal label mx-auto text-center mt-8">
+          <div className=" italic font-normal label mx-auto text-center mt-4">
             {formatter(resp.created!)}
           </div>
           <div className=" italic font-normal py-2 mx-auto text-center  text-xl">
-            <span className="!text-md label">author:</span> {resp.expand!.user_id.name}
+            <span className="!text-md label">author:</span>{" "}
+            {resp.expand!.user_id.name}
           </div>
         </div>
       </div>
