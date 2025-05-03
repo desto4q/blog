@@ -1,12 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import SunEditor, { buttonList } from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
 import SunEditorCore from "suneditor/src/lib/core";
 import { staticDb } from "~/client/pocketbase";
 import { UploadPost } from "~/methods/methods";
-
-
 
 export default function Editor() {
   const editor = useRef<SunEditorCore>(null);
@@ -47,6 +45,10 @@ export default function Editor() {
       throw new Error(err as any);
     }
   };
+  let [height, setHeight] = useState("400");
+  useLayoutEffect(() => {
+    setHeight(String((contRef.current?.clientHeight ?? 400) - 160));
+  }, []);
   return (
     <div
       className="flex  flex-col bg-base-300 h-[calc(100dvh-80px)]"
@@ -106,7 +108,7 @@ export default function Editor() {
           console.log(e);
         }}
         setDefaultStyle="font-size: 18px"
-        height={String((contRef.current?.clientHeight ?? 400) - 160)}
+        height={height}
         setAllPlugins={true}
         defaultValue="Hello World!"
         getSunEditorInstance={getSunEditorInstance}

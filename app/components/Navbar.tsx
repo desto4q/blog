@@ -1,6 +1,4 @@
-import { SearchIcon } from "lucide-react";
-import React, { useEffect } from "react";
-import { Link, useLoaderData, useRouteLoaderData } from "react-router";
+import { Link,  useRouteLoaderData } from "react-router";
 import type { USERINFO } from "~/types/types";
 import SearchBar from "./SearchBar";
 export default function NavBar() {
