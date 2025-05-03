@@ -1,4 +1,4 @@
-import type { ListResult } from "pocketbase";
+import type { ListResult, RecordModel } from "pocketbase";
 
 export interface Post {
   body: string;
@@ -38,4 +38,21 @@ export interface POSTRESPONSE extends Post {
     post_id: string;
   };
   expand: any;
+}
+
+export interface Views extends RecordModel {
+  id: string;
+  collectionId: string;
+  reads: number;
+  views: number;
+  post_id: string;
+}
+
+export interface VIEWPOST extends Views {
+  expand: {
+    post_id: Post;
+  };
+}
+export interface POPULARPOST extends ListResult<VIEWPOST> {
+  items: VIEWPOST[];
 }

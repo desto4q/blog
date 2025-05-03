@@ -1,5 +1,5 @@
 import type { Route } from ".react-router/types/app/+types/root";
-import React, { Suspense, useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useLoaderData } from "react-router";
 import { createClient, staticDb } from "~/client/pocketbase";
 import { marked } from "marked";
@@ -21,6 +21,7 @@ export let loader = async ({ params }: Route.LoaderArgs) => {
   let new_resp = { ...resp, views: views_resp };
   return new_resp;
 };
+
 export default function index() {
   let resp = useLoaderData<POSTRESPONSE>();
   let content_md = resp.expand!.body.body;
@@ -36,16 +37,21 @@ export default function index() {
   };
   let read_and_view = async () => {
     let db = staticDb;
-
-    await db.collection("views").update(resp.views.id, {
-      views: resp.views.views + 1,
-      post_id: resp.id,
-    });
+    setTimeout(async (handler) => {
+      await db.collection("views").update(
+        resp.views.id,
+        {
+          views: resp.views.views + 1,
+          post_id: resp.id,
+        },
+        { requestKey: null }
+      );
+    }, 500);
     setTimeout(async () => {
       await db.collection("views").update(resp.views.id, {
         reads: resp.views.reads + 1,
         post_id: resp.id,
-      });
+      },{requestKey:null});
     }, 2000);
   };
   useEffect(() => {

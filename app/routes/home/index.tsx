@@ -1,18 +1,7 @@
-import React, { Suspense } from "react";
+import  { Suspense } from "react";
 import { useLoaderData } from "react-router";
-import { createClient, staticDb } from "~/client/pocketbase";
+import { createClient } from "~/client/pocketbase";
 import FillBody from "~/components/FillBody";
-import {
-  ArrowLeftIcon,
-  ChevronLeft,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  Forward,
-  Send,
-  SendIcon,
-  SquareArrowLeft,
-} from "lucide-react";
-import type { ListResult, RecordModel } from "pocketbase";
 import BodyHeader from "~/components/BodyHeader";
 import type { PostResult } from "~/types/types";
 import Card from "~/components/Card";
