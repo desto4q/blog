@@ -10,17 +10,18 @@ interface UPLOADPOST {
   thumb: File;
 }
 export let UploadPost = async (props: UPLOADPOST) => {
-  let body_response = await staticDb.collection("post_body").create({
-    body: props.body,
-  });
-  console.log("done");
-  let post_resp = await staticDb.collection("posts").create({
-    title: props.title,
-    thumb: props.thumb,
-    body: body_response.id,
+
+  let form = new FormData();
+  form.append("body", props.body);
+  form.append("title", props.title);
+  form.append("thumb", props.thumb);
+  let resp = await fetch("/api/post/create", {
+    method: "POST",
+    credentials: "include",
+    body:form
   });
 
-  return { post_resp, body_response };
+  return resp;
 };
 
 export let verifyCookie = async (cookie_string: string) => {
@@ -35,5 +36,6 @@ export let verifyCookie = async (cookie_string: string) => {
 export let get_user = async (cookie_string: string) => {
   let db = createClient();
   db.authStore.loadFromCookie(cookie_string);
-  let model = db.authStore.record;  return model;
+  let model = db.authStore.record;
+  return model;
 };

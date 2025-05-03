@@ -52,10 +52,12 @@ export default function NavBar() {
                 </div>
                 <ul
                   tabIndex={0}
-                  className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+                  className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm gap-2"
                 >
                   <li>
-                    <a>Item 1</a>
+                    <Link to={"/create"} className="btn btn-ghost" viewTransition>
+                      Create
+                    </Link>
                   </li>
                   <li>
                     <Link to={"/api/logout"} className="btn btn-error">

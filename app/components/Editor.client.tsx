@@ -6,6 +6,8 @@ import SunEditorCore from "suneditor/src/lib/core";
 import { staticDb } from "~/client/pocketbase";
 import { UploadPost } from "~/methods/methods";
 
+
+
 export default function Editor() {
   const editor = useRef<SunEditorCore>(null);
   const getSunEditorInstance = (sunEditor: SunEditorCore) => {
@@ -94,6 +96,7 @@ export default function Editor() {
         onClick={() => {
           dialogRef.current!.showModal();
           imageRef.current!.src = "";
+          imageInputRef.current!.value = "";
         }}
       >
         Post
@@ -102,23 +105,38 @@ export default function Editor() {
         onSave={(e) => {
           console.log(e);
         }}
-        // height={size}
-        height={String((contRef.current?.clientHeight ?? 400) - 140)}
+        setDefaultStyle="font-size: 18px"
+        height={String((contRef.current?.clientHeight ?? 400) - 160)}
         setAllPlugins={true}
-        defaultValue="sadasdassa"
+        defaultValue="Hello World!"
         getSunEditorInstance={getSunEditorInstance}
-        onImageUploadBefore={(files, info, uploadHandler) => {
-          const url = URL.createObjectURL(files[0]);
-          const response = {
-            result: [
-              {
-                url: url,
-                name: files[0].name,
-                size: files[0].size,
-              },
-            ],
-          };
-          uploadHandler(response);
+        onImageUploadBefore={(files, _info, uploadHandler) => {
+          try {
+            staticDb
+              .collection("images")
+              .create({
+                img: files[0],
+              })
+              .then((_url) => {
+                const response = {
+                  result: [
+                    {
+                      url: staticDb.files.getURL(_url, _url.img),
+                      name: files[0].name,
+                      size: files[0].size,
+                    },
+                  ],
+                };
+                uploadHandler(response);
+              })
+              .catch((error) => {
+                console.error("Error uploading image:", error);
+                return false;
+              });
+          } catch (error) {
+            console.error("Error in image upload:", error);
+            return false;
+          }
           return false;
         }}
         imageUploadHandler={(e) => {
