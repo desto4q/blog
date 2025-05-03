@@ -1,11 +1,11 @@
-import { Link,  useRouteLoaderData } from "react-router";
+import { Link, useRouteLoaderData } from "react-router";
 import type { USERINFO } from "~/types/types";
 import SearchBar from "./SearchBar";
 export default function NavBar() {
   const data: USERINFO | undefined = useRouteLoaderData("root");
 
   return (
-    <div className="h-20  bg-base-100 sticky top-0 z-20">
+    <div className="h-20  sticky top-0 z-20 bg-base-100">
       <nav className="container mx-auto  flex items-center h-full border-b border-primary/25">
         <Link viewTransition to={"/home"} className="text-2xl font-bold">
           Blog
@@ -53,7 +53,11 @@ export default function NavBar() {
                   className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm gap-2"
                 >
                   <li>
-                    <Link to={"/create"} className="btn btn-ghost" viewTransition>
+                    <Link
+                      to={"/create"}
+                      className="btn btn-ghost"
+                      viewTransition
+                    >
                       Create
                     </Link>
                   </li>

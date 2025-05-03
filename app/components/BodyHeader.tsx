@@ -11,7 +11,7 @@ export default function BodyHeader({
   paginatorInfo?: PAGINATOR;
 }) {
   return (
-    <div className="flex container mx-auto items-center ">
+    <div className="flex container mx-auto items-center border-b h-full border-current/25">
       <h2 className="text-xl font-bold">{title}</h2>
       {paginator && paginatorInfo && <Paginator {...paginatorInfo} />}
     </div>

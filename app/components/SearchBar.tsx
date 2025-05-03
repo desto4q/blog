@@ -22,6 +22,7 @@ export default function SearchBar() {
         type="text"
         className="join-item input w-full "
         name="search"
+        placeholder="search here..."
         defaultValue={search && search}
       />
       <button className="btn join-item btn-primary btn-soft">

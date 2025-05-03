@@ -11,7 +11,7 @@ export let loader = async ({ params }: Route.LoaderArgs) => {
   let { post } = params;
   let db = createClient();
   let resp = await db.collection("posts").getOne(post as string, {
-    expand: "body",
+    expand: "body,user_id",
   });
   return resp;
 };
@@ -32,14 +32,19 @@ export default function index() {
     <div className=" container mx-auto flex flex-col">
       <div className=" py-4  mx-auto w-full max-w-[852px] text-center text-balance">
         <div className=" font-bold flex flex-col text-center justify-center">
-          <span className="text-5xl font-bold capitalize leading-normal">{resp.title}</span>
+          <span className="text-5xl font-bold capitalize leading-normal">
+            {resp.title}
+          </span>
           <div className=" italic font-normal label mx-auto text-center mt-8">
             {formatter(resp.created!)}
+          </div>
+          <div className=" italic font-normal py-2 mx-auto text-center  text-xl">
+            <span className="!text-md label">author:</span> {resp.expand!.user_id.name}
           </div>
         </div>
       </div>
       <div className="divider "></div>
-      <main className="mx-auto  max-w-[852px] ">
+      <main className="mx-auto w-full  max-w-[852px] ">
         <Suspense fallback={<>loading</>}>
           <div className="prose max-w-none">
             <Markdown

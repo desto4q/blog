@@ -30,7 +30,7 @@ export default function Paginator(props: PAGINATOR) {
   };
 
   return (
-    <div className="join ml-auto">
+    <div className="join ml-auto ">
       <button
         className="join-item btn btn-square"
         onClick={handlePrevPage}
