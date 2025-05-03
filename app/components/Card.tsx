@@ -16,7 +16,7 @@ export default function Card(item: Post) {
       to={`/post/${item.id}`}
       viewTransition
       key={item.id}
-      className="w-full  py-2 "
+      className="w-full  py-2 hover:grayscale-75  duration-300"
     >
       <img
         src={

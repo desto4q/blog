@@ -28,7 +28,7 @@ import { MiddleWare } from "middleware";
 import { createClient } from "./client/pocketbase";
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="nord">
+    <html lang="en" data-theme="fade">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -35,7 +35,7 @@ export default function index() {
       <div className="flex-1 flex items-center justify-center">
         <form
           method="post"
-          className="p-6 bg-base-200 flex flex-col gap-3  w-full max-w-xl"
+          className="p-6 bg-base-200 flex flex-col gap-3  w-full max-w-xl drop-shadow-md"
         >
           <h2 className="py-2 text-xl font-bold mx-auto">Login to Blug</h2>
           <div className="flex flex-col">

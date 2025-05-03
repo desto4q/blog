@@ -8,11 +8,11 @@ export default function NavBar() {
 
   return (
     <div className="h-20  bg-base-100 sticky top-0 z-20">
-      <nav className="container mx-auto flex items-center h-full border-b border-primary/25">
+      <nav className="container mx-auto  flex items-center h-full border-b border-primary/25">
         <Link viewTransition to={"/home"} className="text-2xl font-bold">
           Blog
         </Link>
-        <div className="mx-auto w-full max-w-md">
+        <div className="w-full max-w-md mx-auto">
           <SearchBar />
         </div>
         <div className="flex items-center gap-2">
