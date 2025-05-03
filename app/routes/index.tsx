@@ -4,9 +4,9 @@ export default function index() {
   return (
     <div className="hero min-h-[calc(100dvh_-_80px)] bg-gradient-to-b from-base-200 to-base-300">
       <div className="hero-content text-center">
-        <div className="max-w-md">
-          <h1 className="text-5xl leading-tight font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-            Welcome to Our Blog
+        <div className="max-w-lg">
+          <h1 className="text-6xl leading-tight font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+            Welcome to Blug
           </h1>
           <p className="py-6 text-lg text-base-content/80">
             Discover insightful articles, tips, and stories from our experienced

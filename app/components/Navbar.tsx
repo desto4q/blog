@@ -7,7 +7,7 @@ export default function NavBar() {
     <div className="h-20  sticky top-0 z-20 bg-base-100  border-b border-primary/25">
       <nav className="container mx-auto  flex items-center h-full">
         <Link viewTransition to={"/"} className="text-2xl font-bold">
-          Blog
+          Blug
         </Link>
         <div className="w-full max-w-md mx-auto">
           <SearchBar />
