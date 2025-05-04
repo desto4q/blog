@@ -2,8 +2,10 @@ import { Book, Star } from "lucide-react";
 import { Link } from "react-router";
 export default function index() {
   return (
-    <div className="hero min-h-[calc(100dvh_-_80px)] bg-gradient-to-b from-base-200 to-base-300">
-      <div className="hero-content text-center">
+    <div className="hero min-h-[calc(100dvh_-_80px)] bg-gradient-to-b from-base-200 to-base-300 relative">
+      <video src="matrix.mp4" className="w-full h-full object-cover blur-sm absolute inset-0" autoPlay muted></video>
+      <div className="hero-content text-center ">
+
         <div className="max-w-lg">
           <h1 className="text-6xl leading-tight font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
             Welcome to Blug

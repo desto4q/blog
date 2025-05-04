@@ -7,6 +7,9 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";
+// @ts-ignore
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+// import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import type { POSTRESPONSE } from "~/types/types";
 export let loader = async ({ params }: Route.LoaderArgs) => {
   let { post } = params;
@@ -48,10 +51,14 @@ export default function index() {
       );
     }, 500);
     setTimeout(async () => {
-      await db.collection("views").update(resp.views.id, {
-        reads: resp.views.reads + 1,
-        post_id: resp.id,
-      },{requestKey:null});
+      await db.collection("views").update(
+        resp.views.id,
+        {
+          reads: resp.views.reads + 1,
+          post_id: resp.id,
+        },
+        { requestKey: null }
+      );
     }, 2000);
   };
   useEffect(() => {
@@ -87,8 +94,27 @@ export default function index() {
             <Markdown
               rehypePlugins={[rehypeRaw]}
               remarkPlugins={[remarkGfm, remarkBreaks]}
+              // components={{
+              //   hr: () => <hr className="my-8 border-t border-gray-300" />,
+              // }}
               components={{
-                hr: () => <hr className="my-8 border-t border-gray-300" />,
+                code(props) {
+                  const { children, className, node, ...rest } = props;
+                  const match = /language-(\w+)/.exec(className || "");
+                  return match ? (
+                    <SyntaxHighlighter
+                      {...rest}
+                      PreTag="div"
+                      children={String(children).replace(/\n$/, "")}
+                      language={match[1]}
+
+                    />
+                  ) : (
+                    <code {...rest} className={className}>
+                      {children}
+                    </code>
+                  );
+                },
               }}
             >
               {content_md}
