@@ -2,6 +2,7 @@
   "name": "blog",
   "private": true,
   "type": "module",
+  "license": "",
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
@@ -38,7 +39,6 @@
     "slate": "^0.114.0",
     "slate-react": "^0.114.2",
     "sonner": "^2.0.3",
-    "textarea-markdown-editor": "^1.0.4",
     "vite-plugin-markdown": "^2.2.0"
   },
   "devDependencies": {

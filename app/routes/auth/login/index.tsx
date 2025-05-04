@@ -6,6 +6,7 @@ import { createClient } from "~/client/pocketbase";
 import { verifyCookie } from "~/methods/methods";
 export let loader = async ({ request }: Route.LoaderArgs) => {
   let cookies = request.headers.get("cookie");
+  if (!cookies) return "";
   await verifyCookie(cookies as string);
   return "sage";
 };
