@@ -1,8 +1,7 @@
 import type { Route } from ".react-router/types/app/+types/root";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import { useLoaderData } from "react-router";
 import { createClient, staticDb } from "~/client/pocketbase";
-import { marked } from "marked";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
@@ -21,12 +20,10 @@ export let loader = async ({ params }: Route.LoaderArgs) => {
   return new_resp;
 };
 
-
-
 export default function index() {
   let resp = useLoaderData<POSTRESPONSE>();
   let content_md = resp.expand!.body.body;
-  let formatter = (date_string: string) => {
+  let formatter = () => {
     return new Date(resp.created).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
@@ -79,7 +76,6 @@ export default function index() {
                       PreTag="div"
                       children={String(children).replace(/\n$/, "")}
                       language={match[1]}
-
                     />
                   ) : (
                     <code {...rest} className={className}>
