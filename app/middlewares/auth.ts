@@ -10,7 +10,6 @@ interface CTX {
   params: { [key: string]: string | undefined };
   response: Response;
 }
-
 let escapeApi = (path: string) => {
   if (api_routes.some((predicate) => path.includes(predicate)))
     throw Response.json(
@@ -35,6 +34,7 @@ export let authMiddleware = async ({ request, response }: CTX) => {
     escapeApi(path);
     throw response;
   }
+
   let db = createClient();
   if (isTokenExpired(pb_auth)) {
     escapeApi(path);

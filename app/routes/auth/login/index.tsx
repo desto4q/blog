@@ -4,6 +4,8 @@ import FillBody from "~/components/FillBody";
 import type { Route } from "../../api/images/$image/+types";
 import { createClient } from "~/client/pocketbase";
 import { verifyCookie } from "~/methods/methods";
+import { ClientResponseError } from "pocketbase";
+import { toast } from "sonner";
 export let loader = async ({ request }: Route.LoaderArgs) => {
   let cookies = request.headers.get("cookie");
   if (!cookies) return "";
@@ -15,22 +17,47 @@ export let action = async ({ request, params, context }: Route.ActionArgs) => {
   let email = form.get("email") as string;
   let password = form.get("password") as string;
   let db = createClient();
-  let auth_response = await db
-    .collection("users")
-    .authWithPassword(email, password);
-  let auth_cookie = db.authStore.exportToCookie();
-  let header = new Headers();
-  header.append("set-cookie", auth_cookie);
-  return redirect("/home", { headers: header });
+  try {
+    let auth_response = await db
+      .collection("users")
+      .authWithPassword(email, password);
+    let auth_cookie = db.authStore.exportToCookie();
+    let header = new Headers();
+    header.append("set-cookie", auth_cookie);
+    return redirect("/home", { headers: header });
+  } catch (err) {
+    if (err instanceof ClientResponseError) {
+      return Response.json(
+        {
+          message: err.message,
+        },
+        {
+          status: err.status,
+        }
+      );
+    }
+    return Response.json(
+      {
+        message: "error authenticating user",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 };
+
 export default function index() {
-  let action_data = useActionData<typeof action>();
+  let action_data = useActionData();
   let logger = () => {
-    console.log(action_data);
+    if (!action_data) return;
+    toast.error(action_data.message!);
   };
+
   useEffect(() => {
     logger();
   }, []);
+
   return (
     <FillBody>
       <div className="flex-1 flex items-center justify-center">
@@ -42,15 +69,15 @@ export default function index() {
           <div className="flex flex-col">
             <label className=" label py-2">Email</label>
             <input
-              type="text"
+              type="email"
               className="input w-full"
-              placeholder="email"
+              placeholder="Email"
               name="email"
               required
             />
           </div>
           <div className="flex flex-col">
-            <label className=" label py-2">Email</label>
+            <label className=" label py-2">Password</label>
             <input
               type="text"
               className="input w-full"

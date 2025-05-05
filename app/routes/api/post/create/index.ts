@@ -39,11 +39,7 @@ export let action = async ({ request }: Route.LoaderArgs) => {
     body: body_response.id,
     user_id: db.authStore.record?.id,
   });
-  await db.collection("views").create({
-    views: 0,
-    reads: 0,
-    post_id: post_resp.id,
-  });
+
   return Response.json(
     {
       message: "post created",

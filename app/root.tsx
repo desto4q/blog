@@ -23,6 +23,8 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
+
+
 import { Toaster } from "sonner";
 import { MiddleWare } from "middleware";
 import { createClient } from "./client/pocketbase";
@@ -45,6 +47,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
     </html>
   );
 }
+
+let asse:boolen = "sds";
 
 export let loader = ({ context, request }: Route.LoaderArgs) => {
   let cookies = request.headers.get("cookie") ?? null;

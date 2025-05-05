@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router";
 import { staticDb } from "~/client/pocketbase";
 import type { Post } from "~/types/types";
@@ -11,6 +10,7 @@ export default function Card(item: Post) {
     hour: "2-digit",
     minute: "2-digit",
   });
+
   return (
     <Link
       to={`/post/${item.id}`}
