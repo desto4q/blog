@@ -53,6 +53,17 @@ export interface VIEWPOST extends Views {
     post_id: Post;
   };
 }
+
+export interface SINGLEPOST extends Post {
+  expand: {
+    body: {
+      body: string;
+      id: string;
+      created: string;
+      updated: string;
+    };
+  };
+}
 export interface POPULARPOST extends ListResult<VIEWPOST> {
   items: VIEWPOST[];
 }

@@ -1,4 +1,4 @@
-import { DeleteIcon } from "lucide-react";
+import { DeleteIcon, PenIcon } from "lucide-react";
 import type { SyntheticEvent } from "react";
 import { Link } from "react-router";
 import { toast } from "sonner";
@@ -53,9 +53,15 @@ export default function UserCard(item: Post) {
           e.stopPropagation();
         }}
       >
+        <Link
+          to={`/edit/${item.id}`}
+          className="btn ml-auto btn-clean p-1 btn-secondary mt-1"
+        >
+          <PenIcon size={18} />
+        </Link>
         <div
           onClick={deletePost}
-          className="btn ml-auto btn-clean p-1 btn-error mt-1"
+          className="btn ml-2 btn-clean p-1 btn-error mt-1"
         >
           <DeleteIcon size={18} />
         </div>

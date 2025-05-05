@@ -7,7 +7,7 @@ import { staticDb } from "~/client/pocketbase";
 import { UploadPost } from "~/methods/methods";
 import type { SINGLEPOST } from "~/types/types";
 
-export default function Editor() {
+export default function UpdateEditor(props: { post: SINGLEPOST }) {
   const editor = useRef<SunEditorCore>(null);
   const getSunEditorInstance = (sunEditor: SunEditorCore) => {
     editor.current = sunEditor;
@@ -19,32 +19,24 @@ export default function Editor() {
   let imageInputRef = useRef<HTMLInputElement | null>(null);
   let titleRef = useRef<HTMLInputElement | null>(null);
   let uploader = async () => {
-    if (!buttonRef.current) return;
-    buttonRef.current.disabled = true;
-    if (titleRef.current!.value.length < 3) {
-      buttonRef.current.disabled = false;
-      return toast.error("title is empty");
+    if (!editor.current || !titleRef.current || !buttonRef.current) return;
+    buttonRef.current.disabled = true
+
+    let form_data = new FormData();
+    form_data.append("body", editor.current?.getContents(false));
+    form_data.append("title", titleRef.current.value);
+    form_data.append("post_id", props.post.id);
+    form_data.append("post_body_id", props.post.body);
+    let resp = await fetch("/api/update", {
+      method: "post",
+      credentials: "include",
+      body: form_data,
+    });
+    if (resp.ok) {
+      return toast.success("updated");
     }
-    let post_data = {
-      title: titleRef.current?.value as string,
-      body: editor.current?.getContents(false) as string,
-      thumb: imageInputRef.current?.files?.[0] as File,
-    };
-    console.log(post_data.thumb);
-    try {
-      let resp = toast.promise(UploadPost(post_data), {
-        loading: "Uploading...",
-        success: `post has been added`,
-        error: "Error",
-      });
-      buttonRef.current.disabled = false;
-      console.log(resp);
-      dialogRef.current?.close();
-      return resp;
-    } catch (err) {
-      buttonRef.current.disabled = false;
-      throw new Error(err as any);
-    }
+    toast.error("failed to update");
+    buttonRef.current.disabled = false;
   };
   let [height, setHeight] = useState("400");
   useLayoutEffect(() => {
@@ -59,27 +51,13 @@ export default function Editor() {
       <dialog className="modal" ref={dialogRef}>
         <div className="modal-box">
           <h2 className="text-xl label font-bold mb-3">Upload Info</h2>
-          <div className="h-[252px] mb-2">
-            <img className="w-full h-full" alt="" ref={imageRef} />
-          </div>
+          <h2 className="text-lg label capitalize mb-2 block">title</h2>
           <input
             type="text"
             placeholder="title"
-            className="input w-full"
+            className="input w-full mb-2"
             ref={titleRef}
-          />
-          <input
-            ref={imageInputRef}
-            type="file"
-            accept="image/*"
-            className="file-input my-2 w-full"
-            onChange={(e) => {
-              let files = e.target.files;
-              let file = files?.length && files[0];
-              if (!file) return;
-              let url = URL.createObjectURL(file as File);
-              imageRef.current!.src = url;
-            }}
+            defaultValue={props.post.title}
           />
           <button
             ref={buttonRef}
@@ -107,7 +85,7 @@ export default function Editor() {
         setDefaultStyle="font-size: 18px"
         height={height}
         setAllPlugins={true}
-        defaultValue={"Hello World!"}
+        defaultValue={props.post.expand.body.body ?? "Hello World!"}
         getSunEditorInstance={getSunEditorInstance}
         onImageUploadBefore={(files, _info, uploadHandler) => {
           try {

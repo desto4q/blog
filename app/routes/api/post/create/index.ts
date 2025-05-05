@@ -1,7 +1,6 @@
 import { createClient } from "~/client/pocketbase";
 import type { Route } from "../../../auth/login/+types";
 import { isTokenExpired } from "pocketbase";
-
 export let loader = async () => {
   return Response.json(
     {
@@ -13,7 +12,6 @@ export let loader = async () => {
     }
   );
 };
-
 export let action = async ({ request }: Route.LoaderArgs) => {
   let cookies = request.headers.get("cookie") as string;
   let db = createClient();
@@ -25,7 +23,6 @@ export let action = async ({ request }: Route.LoaderArgs) => {
         status: 401,
       }
     );
-
   let form = await request.formData();
   let body = form.get("body") as string;
   let title = form.get("title") as string;

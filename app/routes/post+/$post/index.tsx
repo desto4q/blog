@@ -9,7 +9,6 @@ import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";
 // @ts-ignore
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-// import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import type { POSTRESPONSE } from "~/types/types";
 export let loader = async ({ params }: Route.LoaderArgs) => {
   let { post } = params;
@@ -17,18 +16,16 @@ export let loader = async ({ params }: Route.LoaderArgs) => {
   let resp = await db.collection("posts").getOne(post as string, {
     expand: "body,user_id",
   });
-  let views_resp = await db
-    .collection("views")
-    .getFirstListItem(`post_id="${resp.id}"`);
 
-  let new_resp = { ...resp, views: views_resp };
+  let new_resp = { ...resp };
   return new_resp;
 };
+
+
 
 export default function index() {
   let resp = useLoaderData<POSTRESPONSE>();
   let content_md = resp.expand!.body.body;
-  let parsed = marked.parse(content_md);
   let formatter = (date_string: string) => {
     return new Date(resp.created).toLocaleDateString("en-US", {
       year: "numeric",
@@ -38,32 +35,7 @@ export default function index() {
       minute: "2-digit",
     });
   };
-  let read_and_view = async () => {
-    let db = staticDb;
-    setTimeout(async (handler) => {
-      await db.collection("views").update(
-        resp.views.id,
-        {
-          views: resp.views.views + 1,
-          post_id: resp.id,
-        },
-        { requestKey: null }
-      );
-    }, 500);
-    setTimeout(async () => {
-      await db.collection("views").update(
-        resp.views.id,
-        {
-          reads: resp.views.reads + 1,
-          post_id: resp.id,
-        },
-        { requestKey: null }
-      );
-    }, 2000);
-  };
-  useEffect(() => {
-    read_and_view();
-  }, []);
+
   return (
     <div className=" container mx-auto flex flex-col">
       <div className=" py-4  mx-auto w-full max-w-[852px] text-center text-balance">
