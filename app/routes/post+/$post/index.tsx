@@ -48,7 +48,7 @@ export default function index() {
             {resp.title}
           </span>
           <div className=" italic font-normal label mx-auto text-center mt-4">
-            {formatter(resp.created!)}
+            {formatter()}
           </div>
           <div className=" italic font-normal py-2 mx-auto text-center  text-xl">
             <span className="!text-md label">author:</span>{" "}
