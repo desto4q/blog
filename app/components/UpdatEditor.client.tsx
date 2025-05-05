@@ -20,7 +20,7 @@ export default function UpdateEditor(props: { post: SINGLEPOST }) {
   let titleRef = useRef<HTMLInputElement | null>(null);
   let uploader = async () => {
     if (!editor.current || !titleRef.current || !buttonRef.current) return;
-    buttonRef.current.disabled = true
+    buttonRef.current.disabled = true;
 
     let form_data = new FormData();
     form_data.append("body", editor.current?.getContents(false));
